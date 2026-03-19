@@ -3,6 +3,7 @@ import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import type { PublicKey } from '@solana/web3.js';
 import { getTestSdk } from '../helpers/sdk';
 import { BAGS_FEE_SHARE_V2_MAX_CLAIMERS_NON_LUT } from '../../src/constants';
+import { BAGS_CONFIG_TYPE } from '../../src/types/api';
 import { testEnv } from '../helpers/env';
 
 function buildFeeClaimer(): { user: PublicKey; userBps: number } {
@@ -67,7 +68,7 @@ describe('ConfigService', () => {
 		await expect(
 			config.createBagsFeeShareConfig({
 				payer,
-				baseMint: testEnv.tokenMint,
+				baseMint: testEnv.notUsedBagsTokenMint,
 				feeClaimers: [
 					{ user: claimerA, userBps: 7000 },
 					{ user: claimerB, userBps: 2000 },
@@ -78,7 +79,7 @@ describe('ConfigService', () => {
 		await expect(
 			config.createBagsFeeShareConfig({
 				payer,
-				baseMint: testEnv.tokenMint,
+				baseMint: testEnv.notUsedBagsTokenMint,
 				feeClaimers: Array.from({ length: 200 }, () => ({
 					user: Keypair.generate().publicKey,
 					userBps: 50,
@@ -89,7 +90,7 @@ describe('ConfigService', () => {
 		await expect(
 			config.createBagsFeeShareConfig({
 				payer,
-				baseMint: testEnv.tokenMint,
+				baseMint: testEnv.notUsedBagsTokenMint,
 				feeClaimers: Array.from({ length: BAGS_FEE_SHARE_V2_MAX_CLAIMERS_NON_LUT + 1 }, () => ({
 					user: Keypair.generate().publicKey,
 					userBps: Math.floor(10_000 / (BAGS_FEE_SHARE_V2_MAX_CLAIMERS_NON_LUT + 1)),
@@ -99,7 +100,7 @@ describe('ConfigService', () => {
 
 		const result = await config.createBagsFeeShareConfig({
 			payer,
-			baseMint: testEnv.tokenMint,
+			baseMint: testEnv.notUsedBagsTokenMint,
 			feeClaimers: [
 				{ user: claimerA, userBps: 5000 },
 				{ user: claimerB, userBps: 5000 },
@@ -129,6 +130,50 @@ describe('ConfigService', () => {
 				expect(transaction).toBeInstanceOf(VersionedTransaction);
 			});
 		});
+	});
+
+	test('createBagsFeeShareConfig rejects an invalid bagsConfigType', async () => {
+		const { config } = getTestSdk();
+		const payer = testEnv.feeWallet;
+
+		const claimerA = Keypair.generate().publicKey;
+		const claimerB = Keypair.generate().publicKey;
+
+		await expect(
+			config.createBagsFeeShareConfig({
+				payer,
+				baseMint: testEnv.notUsedBagsTokenMint,
+				feeClaimers: [
+					{ user: claimerA, userBps: 5000 },
+					{ user: claimerB, userBps: 5000 },
+				],
+				bagsConfigType: 'not-a-valid-uuid' as typeof BAGS_CONFIG_TYPE[keyof typeof BAGS_CONFIG_TYPE],
+			})
+		).rejects.toThrow('bagsConfigType must be a valid BAGS_CONFIG_TYPE');
+	});
+
+	test('createBagsFeeShareConfig accepts all valid bagsConfigType values', async () => {
+		const { config } = getTestSdk();
+		const payer = testEnv.feeWallet;
+
+		const claimerA = Keypair.generate().publicKey;
+		const claimerB = Keypair.generate().publicKey;
+
+		for (const configType of Object.values(BAGS_CONFIG_TYPE)) {
+			const result = await config.createBagsFeeShareConfig({
+				payer,
+				baseMint: testEnv.notUsedBagsTokenMint,
+				feeClaimers: [
+					{ user: claimerA, userBps: 5000 },
+					{ user: claimerB, userBps: 5000 },
+				],
+				bagsConfigType: configType,
+			});
+
+			expect(result).toBeDefined();
+			expect(result).toHaveProperty('transactions');
+			expect(result).toHaveProperty('bundles');
+		}
 	});
 });
 

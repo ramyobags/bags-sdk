@@ -77,6 +77,12 @@ export type BagsFeeClaimer = {
 	userBps: number;
 };
 
+export const BAGS_CONFIG_TYPE = {
+	DEFAULT: 'fa29606e-5e48-4c37-827f-4b03d58ee23d',
+	BPS25PRE_BPS100POST_5000_COMPOUNDING: 'd16d3585-6488-4a6c-9a6f-e6c39ca0fda3',
+	BPS100PRE_BPS25POST_5000_COMPOUNDING: 'a7c8e1f2-3d4b-5a6c-9e0f-1b2c3d4e5f6a',
+} as const;
+
 export type BagsGetOrCreateFeeShareConfigArgs = {
 	feeClaimers: Array<BagsFeeClaimer>;
 	payer: PublicKey;
@@ -85,6 +91,7 @@ export type BagsGetOrCreateFeeShareConfigArgs = {
 	partnerConfig?: PublicKey;
 	additionalLookupTables?: Array<PublicKey>;
 	admin?: PublicKey;
+	bagsConfigType?: (typeof BAGS_CONFIG_TYPE)[keyof typeof BAGS_CONFIG_TYPE];
 };
 
 export type TransactionWithBlockhash = {

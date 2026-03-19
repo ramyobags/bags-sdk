@@ -22,6 +22,7 @@ const rawTestEnv = cleanEnv(process.env, {
 	BAGS_TEST_TRADE_TOKEN_MINT_TO_TOKEN_MINT: str(),
 	BAGS_TEST_FEE_SHARE_ADMIN_WALLET: str(),
 	BAGS_TEST_TOKEN_MINT_FEE_SHARE_V2: str(),
+	BAGS_TEST_NOT_USED_BAGS_TOKEN_MINT: str(),
 });
 
 function toPublicKey(name: string, value: string): PublicKey {
@@ -74,6 +75,8 @@ export const testEnv = {
 
 	// This should be a wallet that is the fee share admin for at least one token
 	feeShareAdminWallet: toPublicKey('BAGS_TEST_FEE_SHARE_ADMIN_WALLET', rawTestEnv.BAGS_TEST_FEE_SHARE_ADMIN_WALLET),
+
+	notUsedBagsTokenMint: toPublicKey('BAGS_TEST_NOT_USED_BAGS_TOKEN_MINT', rawTestEnv.BAGS_TEST_NOT_USED_BAGS_TOKEN_MINT),
 };
 
 export type TestEnv = typeof testEnv;

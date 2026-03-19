@@ -4,6 +4,7 @@ import {
 	CreateDexscreenerOrderParams,
 	CreateTokenInfoParams,
 	GetTradeQuoteParams,
+	BAGS_CONFIG_TYPE,
 	NormalizedCreateDexscreenerOrderParams,
 	NormalizedCreateFeeShareConfigParams,
 	NormalizedCreateTokenInfoParams,
@@ -125,6 +126,10 @@ export function validateAndNormalizeCreateFeeShareConfigParams(params: BagsGetOr
 		}
 	}
 
+	if (params.bagsConfigType && !Object.values(BAGS_CONFIG_TYPE).includes(params.bagsConfigType)) {
+		throw new Error('bagsConfigType must be a valid BAGS_CONFIG_TYPE');
+	}
+
 	return {
 		basisPointsArray: params.feeClaimers.map((claimer) => claimer.userBps),
 		payer: params.payer.toBase58(),
@@ -136,6 +141,7 @@ export function validateAndNormalizeCreateFeeShareConfigParams(params: BagsGetOr
 		tipLamports: tipConfig?.tipLamports,
 		additionalLookupTables: params.additionalLookupTables?.map((lookupTable) => lookupTable.toBase58()),
 		admin: params.admin?.toBase58() ?? undefined,
+		bagsConfigType: params.bagsConfigType ?? BAGS_CONFIG_TYPE.DEFAULT,
 	};
 }
 

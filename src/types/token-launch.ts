@@ -1,5 +1,5 @@
 import { PublicKey, VersionedTransaction } from '@solana/web3.js';
-import { TransactionTipConfig } from './api';
+import { BAGS_CONFIG_TYPE, TransactionTipConfig } from './api';
 import type { ImageInput } from '../utils/image';
 
 export type GetOrCreateConfigResponse = {
@@ -128,4 +128,5 @@ export type NormalizedCreateFeeShareConfigParams = {
 	tipLamports?: number;
 	additionalLookupTables?: Array<string>;
 	admin?: string;
+	bagsConfigType?: (typeof BAGS_CONFIG_TYPE)[keyof typeof BAGS_CONFIG_TYPE];
 };
