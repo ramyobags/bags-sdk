@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, test } from 'vitest';
-import { LAMPORTS_PER_SOL, Transaction } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey, Transaction } from '@solana/web3.js';
 import { getTestSdk } from '../helpers/sdk';
 import type { BagsClaimablePosition } from '../../src/types/meteora';
 import { testEnv } from '../helpers/env';
@@ -30,7 +30,7 @@ describe('FeesService integration', () => {
 			throw new Error('Max claimable position is less than 0.0001 SOL');
 		}
 
-		const transactions = await fee.getClaimTransaction(testEnv.feeWallet, maxClaimablePosition);
+		const transactions = await fee.getClaimTransactions(testEnv.feeWallet, new PublicKey(maxClaimablePosition.baseMint));
 
 		expect(Array.isArray(transactions)).toBe(true);
 		expect(transactions.length).toBeGreaterThan(0);
