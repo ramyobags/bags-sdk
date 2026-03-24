@@ -1,6 +1,8 @@
 # @bagsfm/bags-sdk
-[![RAMYO WALLET ](8vR4c7eP3CLpseLiLCVeF8Chwz4i6hoYJxhFArnPPsC3)
-[![RAMO COIN CONTRACT](EcmFbvoE6MWp4KjdiFMbnVWEShPvbHMkXBstPbHMBAGS)
+RAMYO WALLET (8vR4c7eP3CLpseLiLCVeF8Chwz4i6hoYJxhFArnPPsC3)
+###
+[RAMO COIN CONTRACT(EcmFbvoE6MWp4KjdiFMbnVWEShPvbHMkXBstPbHMBAGS)
+###
 HACKATHON : (https://bags.fm/apps/e5566983-2342-4ad8-9b62-69c719e24c1b)
 
 [![npm version](https://badge.fury.io/js/@bagsfm%2Fbags-sdk.svg)](https://badge.fury.io/js/@bagsfm%2Fbags-sdk)
