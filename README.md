@@ -1,7 +1,8 @@
 # @bagsfm/bags-sdk
-RAMYO WALLET (8vR4c7eP3CLpseLiLCVeF8Chwz4i6hoYJxhFArnPPsC3)
+RAMYO WALLET (J1nBS7RrNedRMUDo3v6zf7YU6sNxcdrbQLyKUGSohLXC)
 ###
-
+Bags API 
+https://bags.fm/GTDvqbokZcuPwoBqY6G8aztYu6ninBNtJWVY9dB9BAGS
 ###
 
 
